@@ -25,7 +25,7 @@ public class Calendar extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.classes:
-                        startActivity(new Intent(getApplicationContext(), Classes.class));
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.calendar:

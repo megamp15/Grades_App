@@ -28,8 +28,6 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.classes:
-                        startActivity(new Intent(getApplicationContext(), Classes.class));
-                        overridePendingTransition(0, 0);
                         return true;
                     case R.id.calendar:
                         startActivity(new Intent(getApplicationContext(), Calendar.class));
