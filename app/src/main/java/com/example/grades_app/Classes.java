@@ -1,35 +1,42 @@
 package com.example.grades_app;
 
-public class Classes {
-    private String name;
-    private Float grade;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
-    public Classes(String name, Float grade) {
-        this.name = name;
-        this.grade = grade;
-    }
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
 
-    public String getName() {
-        return name;
-    }
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Float getGrade() {
-        return grade;
-    }
-
-    public void setGrade(Float grade) {
-        this.grade = grade;
-    }
+public class Classes extends AppCompatActivity {
 
     @Override
-    public String toString() {
-        return "Classes{" +
-                "name='" + name + '\'' +
-                ", grade=" + grade +
-                '}';
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_classes);
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        bottomNavigationView.setSelectedItemId(R.id.classes);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.classes:
+                        return true;
+                    case R.id.calendar:
+                        startActivity(new Intent(getApplicationContext(), Calendar.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.settings:
+                        startActivity(new Intent(getApplicationContext(), Settings.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                }
+                return false;
+            }
+        });
     }
 }
