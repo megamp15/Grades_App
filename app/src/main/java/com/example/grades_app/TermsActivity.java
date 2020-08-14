@@ -5,37 +5,45 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.media.Image;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class TermsActivity extends AppCompatActivity{
+
+    public static final String SHARED_PREFS = "";
+    public static final String TERMS = "";
+
 
     private RecyclerView terms_recView;
     private ArrayList<Terms> terms;
     private ImageView close_btn;
-    Bitmap bitmap;
-    Bitmap O;
+    private TextView edit_btn;
+    private EditText term_add_editTxt;
+    private ImageView remove_btn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_terms);
 
-//      Recycler for Classes
+//      Recycler for Terms
         terms_recView = findViewById(R.id.terms_recView);
-        terms = new ArrayList<>();
-        terms.add(new Terms("Fall 2018"));
-        terms.add(new Terms("Spring 2019"));
-        terms.add(new Terms("Fall 2019"));
-        terms.add(new Terms("Spring 2020"));
-        terms.add(new Terms("Fall 2020"));
-
+        loadData();
 
         TermsRecViewAdapter adapter = new TermsRecViewAdapter(this);
         adapter.setClasses(terms);
@@ -53,5 +61,74 @@ public class TermsActivity extends AppCompatActivity{
             }
         });
 
+//      Edit Text for Adding Term
+        term_add_editTxt = findViewById(R.id.term_add_editTxt);
+        term_add_editTxt.setVisibility(View.GONE);
+        term_add_editTxt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if ((keyEvent.getAction() == keyEvent.ACTION_DOWN) && (i == KeyEvent.KEYCODE_ENTER)){
+                    Toast.makeText(TermsActivity.this, term_add_editTxt.getText() + " Submitted", Toast.LENGTH_SHORT).show();
+                    terms.add(new Terms(term_add_editTxt.getText().toString()));
+                    saveData();
+                    term_add_editTxt.setText("");
+                    return true;
+                }
+                return false;
+            }
+        });
+//        //  Remove Term
+//        remove_btn = findViewById(R.id.remove_term_btn);
+//        remove_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
+
+//      Edit Button
+        edit_btn = findViewById(R.id.terms_edit_btn);
+        edit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (term_add_editTxt.getVisibility() == View.GONE){
+                    term_add_editTxt.setVisibility(View.VISIBLE);
+                }
+                else{
+                    term_add_editTxt.setVisibility(View.GONE);
+                }
+
+                if (remove_btn.getVisibility() == View.GONE){
+                    remove_btn.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    remove_btn.setVisibility(View.GONE);
+                }
+            }
+        });
+
+    }
+
+//  Saving the Terms Data
+    protected void saveData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(terms);
+        editor.putString(TERMS, json);
+        editor.apply();
+    }
+
+    protected void loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(TERMS, null);
+        Type type = new TypeToken<ArrayList<Terms>>(){}.getType();
+        terms = gson.fromJson(json, type);
+
+        if (terms == null){
+            terms = new ArrayList<Terms>();
+        }
     }
 }

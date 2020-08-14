@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -63,12 +64,13 @@ public class TermsRecViewAdapter extends RecyclerView.Adapter<TermsRecViewAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView termName;
+        private ImageView removeTerm;
         private RelativeLayout parent;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             termName = itemView.findViewById(R.id.TermNameTxtView);
             parent = itemView.findViewById(R.id.terms_recViewParent);
+            removeTerm = itemView.findViewById(R.id.remove_term_btn);
         }
     }
-
 }
