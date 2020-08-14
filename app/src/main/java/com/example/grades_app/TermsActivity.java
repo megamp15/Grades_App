@@ -97,17 +97,15 @@ public class TermsActivity extends AppCompatActivity{
                 else{
                     term_add_editTxt.setVisibility(View.GONE);
                 }
-
-                if (remove_btn.getVisibility() == View.GONE){
-                    remove_btn.setVisibility(View.VISIBLE);
-
-                }
-                else{
-                    remove_btn.setVisibility(View.GONE);
-                }
+//                if (remove_btn.getVisibility() == View.GONE){
+//                    remove_btn.setVisibility(View.VISIBLE);
+//
+//                }
+//                else{
+//                    remove_btn.setVisibility(View.GONE);
+//                }
             }
         });
-
     }
 
 //  Saving the Terms Data
