@@ -77,14 +77,6 @@ public class TermsActivity extends AppCompatActivity{
                 return false;
             }
         });
-//        //  Remove Term
-//        remove_btn = findViewById(R.id.remove_term_btn);
-//        remove_btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
 
 //      Edit Button
         edit_btn = findViewById(R.id.terms_edit_btn);
@@ -97,13 +89,6 @@ public class TermsActivity extends AppCompatActivity{
                 else{
                     term_add_editTxt.setVisibility(View.GONE);
                 }
-//                if (remove_btn.getVisibility() == View.GONE){
-//                    remove_btn.setVisibility(View.VISIBLE);
-//
-//                }
-//                else{
-//                    remove_btn.setVisibility(View.GONE);
-//                }
             }
         });
     }

@@ -2,9 +2,12 @@ package com.example.grades_app;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,9 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TermsRecViewAdapter extends RecyclerView.Adapter<TermsRecViewAdapter.ViewHolder>{
+    private View.OnClickListener onItemClickListner;
     private ArrayList <Terms> terms = new ArrayList<>();
     private Context context;
-    private int row_idx = -1;
+
     List<TextView>viewList = new ArrayList<>();
 
     public TermsRecViewAdapter(Context context) {
@@ -48,7 +52,6 @@ public class TermsRecViewAdapter extends RecyclerView.Adapter<TermsRecViewAdapte
                 holder.termName.setTextColor(Color.parseColor("#ff0000"));
             }
         });
-
     }
 
     @Override
@@ -61,13 +64,24 @@ public class TermsRecViewAdapter extends RecyclerView.Adapter<TermsRecViewAdapte
         notifyDataSetChanged();
     }
 
+    public void setItemClickListener(View.OnClickListener clickListener) {
+        onItemClickListner = clickListener;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView termName;
         private RelativeLayout parent;
+        private ImageView removeTerm;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setTag(this);
+            itemView.setOnClickListener(onItemClickListner);
             termName = itemView.findViewById(R.id.TermNameTxtView);
             parent = itemView.findViewById(R.id.terms_recViewParent);
+            removeTerm = itemView.findViewById(R.id.remove_term_btn);
+
+
         }
     }
 
