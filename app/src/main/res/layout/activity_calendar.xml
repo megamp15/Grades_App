@@ -17,11 +17,60 @@
         app:menu="@menu/menu_navigation"
         android:layout_alignParentBottom="true"/>
 
-    <CalendarView
-        android:id="@+id/calendarView"
+    <EditText
+        android:id="@+id/calendar_name"
         android:layout_width="match_parent"
-        android:layout_height="429dp"
-        android:layout_above="@+id/bottom_navigation"
-        android:layout_marginBottom="112dp" />
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:hint="Name"
+        android:layout_marginTop="10dp" />
+
+    <EditText
+        android:id="@+id/calendar_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:hint="Description"
+        android:layout_below="@+id/calendar_name"/>
+
+    <EditText
+        android:id="@+id/calendar_day"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/calendar_description"
+        android:hint="Day"/>
+
+    <EditText
+        android:id="@+id/calendar_month"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/calendar_day"
+        android:hint="Month"/>
+
+    <EditText
+        android:id="@+id/calendar_year"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/calendar_month"
+        android:hint="Year"/>
+
+    <Button
+        android:id="@+id/calendar_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/calendar_year"
+        android:text="Add Reminder" />
+
+    <Button
+        android:id="@+id/calendar_next_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/calendar_button"
+        android:text="View Assignments"/>
+
+
+
 
 </RelativeLayout>
