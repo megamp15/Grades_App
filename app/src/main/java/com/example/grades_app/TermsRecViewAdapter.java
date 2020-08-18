@@ -52,6 +52,7 @@ public class TermsRecViewAdapter extends RecyclerView.Adapter<TermsRecViewAdapte
                 holder.termName.setTextColor(Color.parseColor("#ff0000"));
             }
         });
+        holder.removeTerm.setVisibility(View.INVISIBLE);
     }
 
     @Override

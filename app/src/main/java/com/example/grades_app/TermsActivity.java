@@ -12,15 +12,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 public class TermsActivity extends AppCompatActivity{
 
@@ -34,7 +31,7 @@ public class TermsActivity extends AppCompatActivity{
     private TextView edit_btn;
     private EditText term_add_editTxt;
     private ImageView remove_btn;
-
+    private ImageView remove_term;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +65,6 @@ public class TermsActivity extends AppCompatActivity{
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 if ((keyEvent.getAction() == keyEvent.ACTION_DOWN) && (i == KeyEvent.KEYCODE_ENTER)){
-                    Toast.makeText(TermsActivity.this, term_add_editTxt.getText() + " Submitted", Toast.LENGTH_SHORT).show();
                     terms.add(new Terms(term_add_editTxt.getText().toString()));
                     saveData();
                     term_add_editTxt.setText("");
@@ -105,6 +101,8 @@ public class TermsActivity extends AppCompatActivity{
 
     protected void loadData() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+//        Uncomment line below to get rid of the saved terms data. For testing purposes currently.
+//        sharedPreferences.edit().clear().commit();
         Gson gson = new Gson();
         String json = sharedPreferences.getString(TERMS, null);
         Type type = new TypeToken<ArrayList<Terms>>(){}.getType();
