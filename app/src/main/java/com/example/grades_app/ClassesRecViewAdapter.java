@@ -25,22 +25,19 @@ public class ClassesRecViewAdapter extends RecyclerView.Adapter<ClassesRecViewAd
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.classes_list_item,parent, false);
-        ViewHolder holder = new ViewHolder(view);
+        ClassesRecViewAdapter.ViewHolder  holder = new ViewHolder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ClassesRecViewAdapter.ViewHolder holder, final int position) {
         holder.className.setText(classes.get(position).getName());
-        holder.grade.setText(Float.toString(classes.get(position).getGrade())+"%");
-        holder.parent.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context,classes.get(position).getName() + " Selected", Toast.LENGTH_SHORT).show();
-            }
-        });
-
+        if (classes.get(position).getGrade() != null){
+            holder.grade.setText((classes.get(position).getGrade())+"%");
+        }
+        else{
+            holder.grade.setVisibility(View.GONE);
+        }
     }
 
     @Override

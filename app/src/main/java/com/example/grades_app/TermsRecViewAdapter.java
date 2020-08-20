@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TermsRecViewAdapter extends RecyclerView.Adapter<TermsRecViewAdapter.ViewHolder>{
-    private View.OnClickListener onItemClickListner;
     private ArrayList <Terms> terms = new ArrayList<>();
     private Context context;
 
@@ -29,6 +28,7 @@ public class TermsRecViewAdapter extends RecyclerView.Adapter<TermsRecViewAdapte
     public TermsRecViewAdapter(Context context) {
         this.context = context;
     }
+
     @NonNull
     @Override
     public TermsRecViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -52,7 +52,6 @@ public class TermsRecViewAdapter extends RecyclerView.Adapter<TermsRecViewAdapte
                 holder.termName.setTextColor(Color.parseColor("#ff0000"));
             }
         });
-        holder.removeTerm.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -60,13 +59,9 @@ public class TermsRecViewAdapter extends RecyclerView.Adapter<TermsRecViewAdapte
         return terms.size();
     }
 
-    public void setClasses(ArrayList<Terms> terms) {
+    public void setTerms(ArrayList<Terms> terms) {
         this.terms = terms;
         notifyDataSetChanged();
-    }
-
-    public void setItemClickListener(View.OnClickListener clickListener) {
-        onItemClickListner = clickListener;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -76,13 +71,8 @@ public class TermsRecViewAdapter extends RecyclerView.Adapter<TermsRecViewAdapte
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            itemView.setTag(this);
-            itemView.setOnClickListener(onItemClickListner);
             termName = itemView.findViewById(R.id.TermNameTxtView);
             parent = itemView.findViewById(R.id.terms_recViewParent);
-            removeTerm = itemView.findViewById(R.id.remove_term_btn);
-
-
         }
     }
 

@@ -1,6 +1,8 @@
 package com.example.grades_app;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,18 +22,18 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class TermsActivity extends AppCompatActivity{
-
-    public static final String SHARED_PREFS = "";
+//  Static variables for saved preference of the terms data
+    public static final String SHARED_PREFS_TERMS = "";
     public static final String TERMS = "";
 
-
+//  Variables for View items
     private RecyclerView terms_recView;
-    private ArrayList<Terms> terms;
     private ImageView close_btn;
-    private TextView edit_btn;
+    private TextView terms_edit_btn;
     private EditText term_add_editTxt;
-    private ImageView remove_btn;
-    private ImageView remove_term;
+
+//  Array list variable of terms for the recyclerview
+    private ArrayList<Terms> terms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +44,24 @@ public class TermsActivity extends AppCompatActivity{
         terms_recView = findViewById(R.id.terms_recView);
         loadData();
 
-        TermsRecViewAdapter adapter = new TermsRecViewAdapter(this);
-        adapter.setClasses(terms);
+        final TermsRecViewAdapter adapter = new TermsRecViewAdapter(this);
+
+//      Removing the terms from the recyclerview
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                terms.remove(viewHolder.getAdapterPosition());
+                adapter.notifyDataSetChanged();
+                saveData();
+            }
+        };
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(terms_recView);
+        adapter.setTerms(terms);
 
         terms_recView.setAdapter(adapter);
         terms_recView.setLayoutManager(new LinearLayoutManager(this));
@@ -75,8 +93,8 @@ public class TermsActivity extends AppCompatActivity{
         });
 
 //      Edit Button
-        edit_btn = findViewById(R.id.terms_edit_btn);
-        edit_btn.setOnClickListener(new View.OnClickListener() {
+        terms_edit_btn = findViewById(R.id.terms_edit_btn);
+        terms_edit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (term_add_editTxt.getVisibility() == View.GONE){
@@ -91,7 +109,7 @@ public class TermsActivity extends AppCompatActivity{
 
 //  Saving the Terms Data
     protected void saveData() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_TERMS, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(terms);
@@ -99,8 +117,9 @@ public class TermsActivity extends AppCompatActivity{
         editor.apply();
     }
 
+//  Loading the Terms Data. Creates a new term array if one does not exist.
     protected void loadData() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_TERMS, MODE_PRIVATE);
 //        Uncomment line below to get rid of the saved terms data. For testing purposes currently.
 //        sharedPreferences.edit().clear().commit();
         Gson gson = new Gson();
